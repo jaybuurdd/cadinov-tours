@@ -1,7 +1,7 @@
 
 
 const corsOptions = {
-  origin: ['https://cadinov.onrender.com', 'http://localhost:3000'],
+  origin: ['https://cadinov.onrender.com/'],
 }
 
 module.exports = corsOptions

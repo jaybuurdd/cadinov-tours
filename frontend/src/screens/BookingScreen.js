@@ -8,6 +8,7 @@ import moment from 'moment'
 import StripeCheckout from 'react-stripe-checkout'
 // import PayPalCheckout from 'react-paypal-js'
 // import { StripeCheckout } from '@stripe/react-stripe-js';
+import axiosInstance from '../components/AxiosInstance'
 import Swal from 'sweetalert2'
 import AOS from 'aos'
 import 'aos/dist/aos.css'
@@ -26,8 +27,6 @@ function BookingScreen ({ match }) {
   /* initial number of tickets is 1 */
   const [numberOfTickets, setNumberOfTickets] = useState(1)
 
-  const [hasRedirected, setHasRedirected] = useState(false)
-  const [hasRendered, setHasRendered] = useState(false)
 
   useEffect(
     () =>
@@ -37,23 +36,37 @@ function BookingScreen ({ match }) {
           window.location.href = '/login'
         }
 
-        try {
-          setloading(true)
+        await axiosInstance.post('/api/excursions/getexcursionbyid', { excursionid: excursionid})
+        .then((response) => {
 
-          const data = (
-            await axios.post('/api/excursions/getexcursionbyid', {
-              excursionid: excursionid
-            })
-          ).data
-          //settotalamount(data.price * tickets)
-          settotalamount(data.price)
-          setexcursions(data)
+          settotalamount(response.data.price)
+          setexcursions(response)
+          console.log(response)
           setloading(false)
-        } catch (error) {
+
+        })
+        .catch((error) => {
           setloading(false)
           seterror(true)
           console.log(error)
-        }
+        })
+        // try {
+        //   setloading(true)
+
+        //   const data = (
+        //     await axios.post('/api/excursions/getexcursionbyid', {
+        //       excursionid: excursionid
+        //     })
+        //   ).data
+        //   //settotalamount(data.price * tickets)
+        //   settotalamount(data.price)
+        //   setexcursions(data)
+        //   setloading(false)
+        // } catch (error) {
+        //   setloading(false)
+        //   seterror(true)
+        //   console.log(error)
+        // }
       },
     []
   )
@@ -61,7 +74,7 @@ function BookingScreen ({ match }) {
   /* handle changes to the number of tickets from input field */
   const handleNumberOfTicketsChange = event => {
     const newNumberOfTickets = event.target.value
-    settotalamount(newNumberOfTickets * excursion.price)
+    settotalamount(newNumberOfTickets * excursion.data.price)
     setNumberOfTickets(newNumberOfTickets)
   }
 
@@ -70,7 +83,7 @@ function BookingScreen ({ match }) {
     console.log(token)
     const bookingDetails = {
       excursion,
-      userid: JSON.parse(localStorage.getItem('currentUser'))._id,
+      userid: JSON.parse(localStorage.getItem('currentUser')).data._id,
       thedate,
       totalamount,
       token
@@ -78,7 +91,7 @@ function BookingScreen ({ match }) {
 
     try {
       setloading(true)
-      const result = await axios.post(
+      const result = await axiosInstance.post(
         '/api/bookings/bookexcursion',
         bookingDetails
       )
@@ -131,8 +144,8 @@ function BookingScreen ({ match }) {
             style={{ backgroundColor: '#A8A390 ', borderRadius: '10px' }}
           >
             <div className='col-md-6'>
-              <h1>{excursion.name}</h1>
-              <img src={excursion.imageurls[0]} className='d-block  bigimg' />
+              <h1>{excursion.data.name}</h1>
+              <img src={excursion.data.imageurls[0]} className='d-block  bigimg' />
             </div>
 
             <div className='col-md-6'>
@@ -141,8 +154,7 @@ function BookingScreen ({ match }) {
                 <hr />
                 <b>
                   <p>
-                    Name :{' '}
-                    {JSON.parse(localStorage.getItem('currentUser')).name}
+                    Name : {currentUser.data.name}
                   </p>
                   <p>Date : {match.params.thedate}</p>
                   {/* <p>Time : </p> */}
@@ -153,9 +165,9 @@ function BookingScreen ({ match }) {
                 <h1>Amount</h1>
                 <hr />
                 <b>
-                  {excursion.type !== 'Private' ? (
+                  {excursion.data.type !== 'Private' ? (
                     <>
-                      <p>Price Per Person: ${excursion.price}.00 </p>
+                      <p>Price Per Person: ${excursion.data.price}.00 </p>
                       <p>Total Amount : ${totalamount}.00 </p>
                       <p>
                         Ticket(s):{' '}
@@ -169,7 +181,7 @@ function BookingScreen ({ match }) {
                       </p>
                     </>
                   ) : (
-                    <p>Price: ${excursion.price}.00 </p>
+                    <p>Price: ${excursion.data.price}.00 </p>
                   )}
                 </b>
               </div>
@@ -179,7 +191,7 @@ function BookingScreen ({ match }) {
                   className='btn btn-primary m-2'
                   onClick={() => {
                     // Redirect to the Google Form's URL
-                    window.location.href = `https://docs.google.com/forms/d/e/1FAIpQLSdbv40Y9h0_mP3XWOsYchSWGaTZMUfSmk6GjBxe79joIq4w2g/viewform?usp=pp_url&entry.1186382749=${currentUser.name}&entry.1281520525=${currentUser.number}&entry.219322626=${currentUser.email}&entry.1372911005=${excursion.name}&entry.312190220=${thedate}&entry.407071960=${numberOfTickets}&entry.729351709=$${totalamount}.00`
+                    window.location.href = `https://docs.google.com/forms/d/e/1FAIpQLSdbv40Y9h0_mP3XWOsYchSWGaTZMUfSmk6GjBxe79joIq4w2g/viewform?usp=pp_url&entry.1186382749=${currentUser.data.name}&entry.1281520525=${currentUser.data.number}&entry.219322626=${currentUser.data.email}&entry.1372911005=${excursion.data.name}&entry.312190220=${thedate}&entry.407071960=${numberOfTickets}&entry.729351709=$${totalamount}.00`
                   }}
                 >
                   Book
@@ -201,4 +213,4 @@ function BookingScreen ({ match }) {
 
 export default BookingScreen
 
-// export function CheckoutForm () {}
+

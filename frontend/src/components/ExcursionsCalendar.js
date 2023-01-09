@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 // import Calendar from 'react-calendar';
 import { Calendar, Badge, List } from 'antd';
 import axios from 'axios';
+import axiosInstance from '../components/AxiosInstance'
 import moment from 'moment'
 
 function ExcursionsCalendar() {
@@ -35,16 +36,28 @@ function ExcursionsCalendar() {
     // )
     useEffect(() => {
       async function fetchData() {
-        try {
-          // const data = await (await axios.get('/api/bookings/getallbookings')).data;
-          // setbookings(data);
-          const response = await axios.get('/api/bookings/getallbookings');
-          console.log('API response:', response);
-          const data = response.data;
-          setbookings(data);
-        } catch (error) {
-          console.log(error);
-        }
+
+        await axiosInstance.get('/api/bookings/getallbookings')
+          .then((response => {
+
+            setbookings(response.data);
+
+          }))
+          .catch((error) => {
+
+            console.log(error);
+            
+          })
+        // try {
+        //   // const data = await (await axios.get('/api/bookings/getallbookings')).data;
+        //   // setbookings(data);
+        //   const response = await axios.get('/api/bookings/getallbookings');
+        //   console.log('API response:', response);
+        //   const data = response.data;
+        //   setbookings(data);
+        // } catch (error) {
+        //   console.log(error);
+        // }
       }
       fetchData();
     }, []);

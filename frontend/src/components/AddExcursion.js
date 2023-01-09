@@ -1,5 +1,6 @@
-import axios from 'axios'
 import React, { useState } from 'react'
+import axios from 'axios'
+import axiosInstance from '../components/AxiosInstance'
 import Loader from '../components/Loader'
 import Error from '../components/Error'
 import Swal from 'sweetalert2'
@@ -36,24 +37,43 @@ function AddExcursion() {
 
       //console.log(newexcursion)
 
-      try {
-        
-        setloading(true)
-        const result = await ( await axios.post('/api/excursions/addexcursion', newexcursion)).data
-        console.log(result)
-        setloading(false)
-        Swal.fire("Success!", "Your excursion was added!", "success").then(result=>{
-            window.location.href="/home"
+      await axiosInstance.post('/api/excursions/addexcursion', newexcursion)
+        .then((response => {
+
+          setloading(true)
+          console.log(response)
+          setloading(false)
+          Swal.fire("Success!", "Your excursion was added!", "success").then(response => {
+              window.location.href="/home"
+
+            })
+
+        }))
+        .catch((error) => {
+
+          console.log(error)
+          setloading(false)
+          Swal.fire("Oops!", "Something went wrong! Please try again.", "error")
+
         })
+      // try {
         
-      } catch (error) {
+      //   setloading(true)
+      //   const result = await ( await axios.post('/api/excursions/addexcursion', newexcursion)).data
+      //   console.log(result)
+      //   setloading(false)
+      //   Swal.fire("Success!", "Your excursion was added!", "success").then(result=>{
+      //       window.location.href="/home"
+      //   })
         
-        console.log(error)
-        setloading(false)
-        Swal.fire("Oops!", "Something went wrong! Please try again.", "error")
+      // } catch (error) {
+        
+      //   console.log(error)
+      //   setloading(false)
+      //   Swal.fire("Oops!", "Something went wrong! Please try again.", "error")
 
 
-      }
+      // }
 
 
     }

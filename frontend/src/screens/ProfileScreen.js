@@ -74,39 +74,13 @@ function ProfileScreen () {
 
   const user = JSON.parse(localStorage.getItem('currentUser'))
 
-  const [name, setName] = useState(user.name)
-  const [email, setEmail] = useState(user.email)
-  const [isAdmin, setIsAdmin] = useState(user.isAdmin)  
-  const [number, setNumber] = useState(user.number)
+
 
   useEffect(() => {
     if (!user) {
       window.location.href = '/login'
     }
   }, [])
-
-  
-
-  function handleChange(event) {
-    setNumber(event.target.value)
-  }
-
-  async function handleSubmit(event) {
-    event.preventDefault()
-    try {
-      const updatedUser = await axios.post('/api/users/update-phone-number', { userId: user._id, newNumber: number })
-      console.log(updatedUser)
-      setName(updatedUser.name)
-      setEmail(updatedUser.email)
-      setIsAdmin(updatedUser.isAdmin)
-      localStorage.setItem('currentUser', JSON.stringify(updatedUser))
-    } catch (error) {
-      console.error(error)
-    }
-  }
-  
-
-  console.log('number: ' + number)
 
   return (
     <Container>
@@ -117,10 +91,10 @@ function ProfileScreen () {
 
           <br />
 
-          <Text><b>Name</b> : {user.name}</Text>
-          <Text><b>Email</b> : {user.email}</Text>     
-          <Text><b>Phone Number</b> : {user.number}</Text>
-          <Text><b>Account Type</b> : {user.isAdmin ? 'Admin' : 'User'}</Text>
+          <Text><b>Name</b> : {user.data.name}</Text>
+          <Text><b>Email</b> : {user.data.email}</Text>     
+          <Text><b>Phone Number</b> : {user.data.number}</Text>
+          <Text><b>Account Type</b> : {user.data.isAdmin ? 'Admin' : 'User'}</Text>
         </Tabs.TabPane>
         {/* <Tabs.TabPane tab='Bookings' key='2'>
           <MyBookings/>

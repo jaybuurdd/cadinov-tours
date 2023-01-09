@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Tabs } from 'antd'
 import axios from 'axios'
+import axiosInstance from '../components/AxiosInstance'
 import Loader from '../components/Loader'
 import Error from '../components/Error'
 import Swal from 'sweetalert2'
@@ -17,21 +18,36 @@ function RemoveExcursion({ match }) {
   useEffect(
     () =>
       async function fetchData () {
-        try {
+
+        await axiosInstance.get('/api/excursions/getallexcursions')
+          .then((response) => {
+
+            setexcursions(response.data)
+            setloading(false)
+
+          })
+          .catch((error) => {
+
+            seterror(error)
+            console.log(error)
+            setloading(false)
+
+          })
+        // try {
 
           
-          const data = await (
-            await axios.get('/api/excursions/getallexcursions')
-          ).data
+        //   const data = await (
+        //     await axios.get('/api/excursions/getallexcursions')
+        //   ).data
          
-          setexcursions(data)
+        //   setexcursions(data)
          
-          setloading(false)
-        } catch (error) {
-          seterror(error)
-          console.log(error)
-          setloading(false)
-        }
+        //   setloading(false)
+        // } catch (error) {
+        //   seterror(error)
+        //   console.log(error)
+        //   setloading(false)
+        // }
       },
     []
   )
@@ -41,7 +57,7 @@ function RemoveExcursion({ match }) {
     try {
       setloading(true);
       // Send DELETE request to server
-      const result = await (await axios.delete(`/api/excursions/${excursionId}`)).data;
+      const result = await (await axiosInstance.delete(`/api/excursions/${excursionId}`)).data;
       //console.log(result);
       setloading(false);
       if (result.success) {

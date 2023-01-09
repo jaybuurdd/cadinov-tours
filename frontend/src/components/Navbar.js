@@ -6,6 +6,7 @@ function Navbar () {
     localStorage.removeItem('currentUser')
     window.location.href='/login'
   }
+
   return (
     <div>
       <nav class='navbar navbar-expand-lg navbar-light bg-light'>
@@ -42,7 +43,7 @@ function Navbar () {
                       aria-haspopup='true'
                       aria-expanded='false'
                     >
-                    <i className='fa fa-user fa-custom-width'></i>{user.name}
+                    <i className='fa fa-user fa-custom-width'></i>{user.data.name}
                     </button>
                     <div
                       class='dropdown-menu'

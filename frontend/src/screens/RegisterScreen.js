@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
+import axiosInstance from '../components/AxiosInstance'
 import Loader from '../components/Loader'
 import Error from '../components/Error'
 import Success from '../components/Success'
@@ -40,28 +41,54 @@ function RegisterScreen () {
         return
       }
 
-      try {
-        setloading(true)
-        const result = await axios.post('/api/users/register', user).data
+      await axiosInstance.post('/api/users/register', user)
+        .then((response) => {
+
+          setloading(true)
+
+          
+          setloading(false)
+          setsuccess(true)
+
+          
+          setname('')
+          setemail('')
+          setnumber('')
+          setpassword('')
+          setcpassword('')
+
+          window.location.href = '/login'
+
+        })
+        .catch((error) => {
+
+          console.log(error)
+          setloading(false)
+          seterror(true)
+
+        })
+      // try {
+      //   setloading(true)
+      //   const result = await axios.post('/api/users/register', user).data
         
         
-        setloading(false)
-        setsuccess(true)
+      //   setloading(false)
+      //   setsuccess(true)
 
         
-        setname('')
-        setemail('')
-        setnumber('')
-        setpassword('')
-        setcpassword('')
+      //   setname('')
+      //   setemail('')
+      //   setnumber('')
+      //   setpassword('')
+      //   setcpassword('')
 
-        window.location.href = '/login'
+      //   window.location.href = '/login'
 
-      } catch (error) {
-        console.log(error)
-        setloading(false)
-        seterror(true)
-      }
+      // } catch (error) {
+      //   console.log(error)
+      //   setloading(false)
+      //   seterror(true)
+      // }
 
       
     } else {

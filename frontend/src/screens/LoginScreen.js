@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
+import axiosInstance from '../components/AxiosInstance'
 import Loader from '../components/Loader'
 import Error from '../components/Error'
+
+
+
 
 function LoginScreen () {
   // for setting user input fields
@@ -11,6 +15,15 @@ function LoginScreen () {
   const [loading, setloading] = useState(false) // NOTE: Some pages will require this to load properly ("true")
   const [error, seterror] = useState()
 
+//   useEffect(() => {
+
+//     if(localStorage.getItem('currentUser'))
+//     {
+//         window.location.href='/'
+//     }
+  
+// }, [])
+
   async function login () {
 
     const user = {
@@ -18,17 +31,36 @@ function LoginScreen () {
       password
     }
 
-    try {
-      setloading(true)
-      const result = (await axios.post('/api/users/login', user)).data
-      setloading(false)
-      localStorage.setItem('currentUser', JSON.stringify(result))
-      window.location.href='/home'
-    } catch (error) {
-      console.log(error)
-      setloading(false)
-      seterror(true)
-    }
+    await axiosInstance.post('api/users/login', user)
+      .then((response) => {
+
+        setloading(true)
+        setloading(false)
+        localStorage.setItem('currentUser', JSON.stringify(response))
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        console.log(currentUser);
+        
+        window.location.href='/home'
+
+      })
+      .catch((error) => {
+
+        console.log(error)
+        setloading(false)
+        seterror(true)
+
+      })
+    // try {
+    //   setloading(true)
+    //   const result = (await axiosInstance.post('/api/users/login', user)).data
+    //   setloading(false)
+    //   localStorage.setItem('currentUser', JSON.stringify(result))
+    //   window.location.href='/home'
+    // } catch (error) {
+    //   console.log(error)
+    //   setloading(false)
+    //   seterror(true)
+    // }
 
   }
 

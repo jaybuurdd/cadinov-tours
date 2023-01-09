@@ -1,61 +1,49 @@
-
 const express = require("express");
 const app = express();
-const dotenv = require('dotenv')
+const dotenv = require('dotenv');
+const mongoose = require('mongoose');
+const cors = require('cors');
+const path = require('path');
 
-const dbConfig = require(`./db`);
-const mongoose = require('mongoose')
+dotenv.config();
 
+const corsOptions = require('./config/corsOptions');
 
-const path = require('path')
-const cors = require('cors')
-const corsOptions = require('./config/corsOptions')
+const excursionsRoute = require('./routes/excursionsRoute');
+const usersRoute = require('./routes/usersRoute');
+const bookingsRoute = require('./routes/bookingsRoute');
 
-
-
-
-dotenv.config()
-dbConfig()
-// app.use(logger('dev'))
-
-// app.use(cors())
-app.use(express.json)
-
-const excursionsRoute = require("./routes/excursionsRoute")
-const usersRoute = require("./routes/usersRoute")
-const bookingsRoute=require('./routes/bookingsRoute')
-
-app.use('api/excursions', excursionsRoute)
-app.use('api/users', usersRoute)
-app.use('api/bookings' , bookingsRoute)
+app.use(cors(corsOptions));
+app.use(express.json());
 
 
 
-if(process.env.NODE_ENV === 'production')
-{
-    app.use('/' , express.static('client/build'))
+mongoose.connect(process.env.DB_URI, {useUnifiedTopology : true, useNewUrlParser : true });
 
-    app.get('*' , (req , res)=>{
+let connection = mongoose.connection;
 
-        res.sendFile(path.resolve(__dirname  , 'client/build/index.html'))
+connection.on('error', ()=> {
+    console.log('MongoDB Connection Failed! ❌')
+});
 
-    })
+connection.on('connected', ()=>{
+    console.log(`MongoDB Connection Successful on Cluster -- ${connection.host} ✔️`)
+});
+
+app.use('/api/excursions', excursionsRoute);
+app.use('/api/users', usersRoute);
+app.use('/api/bookings', bookingsRoute);
+
+if (process.env.NODE_ENV === 'production') {
+  app.use('/', express.static('client/build'));
+
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'client/build/index.html'));
+  });
 }
 
-const port = process.env.PORT || 5000
+const port = process.env.PORT || 5000;
 
-// mongoose.connection.once('open', () => {
-    
-//     console.log('Connected to MongoDB')
-//     app.listen(port, () => console.log(`Node JS ${process.env.NODE_ENV} Server Started at `+ port) )
+app.listen(port, () => console.log(`Server started on port ${port}`));
 
-
-// })
-
-// mongoose.connection.on('error', err => {
-
-//     console.log(err)
-
-// })
-
-module.exports = app
+module.exports = app;
