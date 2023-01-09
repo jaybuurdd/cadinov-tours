@@ -43,7 +43,7 @@ function HomeScreen () {
         //   console.log(error)
         //   setloading(false)
         // }
-        await axiosInstance.get('/api/excursions/getallexcursions')
+        await axios.get('https://cadinov-api.onrender.com/api/excursions/getallexcursions')
           .then((response) => {
             
             console.log(response)
