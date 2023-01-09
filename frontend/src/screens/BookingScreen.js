@@ -28,8 +28,8 @@ function BookingScreen ({ match }) {
   const [numberOfTickets, setNumberOfTickets] = useState(1)
 
 
-  useEffect(
-    () =>
+  function fetchBookings(){
+
       async function fetchData () {
         //console.log(localStorage.getItem('currentUser').toString())
         if (!localStorage.getItem('currentUser')) {
@@ -67,9 +67,15 @@ function BookingScreen ({ match }) {
         //   seterror(true)
         //   console.log(error)
         // }
-      },
-    []
-  )
+      }
+
+      fetchData()
+  }
+  
+
+  useEffect(() => {
+    fetchBookings()
+  }, [])
 
   /* handle changes to the number of tickets from input field */
   const handleNumberOfTicketsChange = event => {
