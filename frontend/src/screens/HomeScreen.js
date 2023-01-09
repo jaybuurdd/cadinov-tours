@@ -26,42 +26,55 @@ function HomeScreen () {
     filterBySearch()
   }, [searchkey])
 
-  useEffect(
-    () =>
-      // Fetch list of excursions from API
-      async function fetchData () {
-        // try {
-        //   const data = (await axiosInstance.get('/api/excursions/getallexcursions'))
-        //     .data
+  // useEffect(
+  //   () =>
+  //     // Fetch list of excursions from API
+  //     async function fetchData () {
 
-        //   setexcursions(data)
-        //   setavailableexcursions(data)
-        //   setoriginalexcursions(data)
-        //   setloading(false)
-        // } catch (error) {
-        //   seterror(error)
-        //   console.log(error)
-        //   setloading(false)
-        // }
-        await axios.get('https://cadinov-api.onrender.com/api/excursions/getallexcursions')
-          .then((response) => {
+  //       await axios.get('https://cadinov-api.onrender.com/api/excursions/getallexcursions')
+  //         .then((response) => {
             
-            console.log(response.data)
-            setexcursions(response.data)
-            setavailableexcursions(response.data)
-            setoriginalexcursions(response.data)
-            setloading(false)
-          })
-          .catch((error) => {
+  //           console.log(response.data)
+  //           setexcursions(response.data)
+  //           setavailableexcursions(response.data)
+  //           setoriginalexcursions(response.data)
+  //           setloading(false)
+  //         })
+  //         .catch((error) => {
             
-            seterror(error)
-            console.log(error)
-            setloading(false)
+  //           seterror(error)
+  //           console.log(error)
+  //           setloading(false)
 
-          })
-      },
-    []
-  )
+  //         })
+  //     },
+  //   []
+  // )
+
+  function fetchExcursions() {
+    // Fetch list of excursions from API
+    async function fetchData () {
+      await axios.get('https://cadinov-api.onrender.com/api/excursions/getallexcursions')
+        .then((response) => {
+          console.log(response.data)
+          setexcursions(response.data)
+          setavailableexcursions(response.data)
+          setoriginalexcursions(response.data)
+          setloading(false)
+        })
+        .catch((error) => {
+          seterror(error)
+          console.log(error)
+          setloading(false)
+        })
+    }
+    fetchData()
+  }
+  
+  useEffect(() => {
+    fetchExcursions()
+  }, [])
+  
 
   function filterByDate (date) {
     setdate(moment(date).format('MM-DD-YYYY'))
