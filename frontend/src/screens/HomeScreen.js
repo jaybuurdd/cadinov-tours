@@ -46,7 +46,7 @@ function HomeScreen () {
         await axios.get('https://cadinov-api.onrender.com/api/excursions/getallexcursions')
           .then((response) => {
             
-            console.log(response)
+            console.log(response.data)
             setexcursions(response.data)
             setavailableexcursions(response.data)
             setoriginalexcursions(response.data)
