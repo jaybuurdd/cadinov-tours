@@ -54,74 +54,155 @@ class LandingScreen extends React.Component {
   
 render(){
 
-    return (
-
-      <div className='row landing justify-content-center'>
-          {/* prevents exposed whitespaces around webpage*/}
-          <style>
-          {`
+  return (
+    <div className='row landing justify-content-center'>
+        {/* prevents exposed whitespaces around webpage*/}
+        <style>
+            {`
             body {
-              overflow: hidden;
+                overflow: hidden;
             }
-          `}
+            `}
         </style>
-              <video
-                  src='./videos/cadinov-intro.mp4'
-                  autoPlay
-                  loop
-                  style={{
-                  position: 'absolute',
-                  top: 0,
-                  left: 0,
-                  width: '1700px',
-                  height: '1260px',
-                  zIndex: -1,
-                  objectFit:'cover'
-                  }}
-              />
+        <video
+            src='./videos/cadinov-intro.mp4'
+            autoPlay
+            loop
+            style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100vw',
+                height: '100vh',
+                zIndex: -1,
+                objectFit:'cover'
+            }}
+        />
+        <div
+            className='col-md-10 my-auto text-center'
+            style={{
+                borderRight: '8px solid white',
+                background: 'linear-gradient(to bottom right, rgba(23, 85, 106, 1), rgba(204, 204, 204, 0.3))',
+                height: '50vh'
+            }}
+        >
+            <style>
+                {`
+                .pulse-button {
+                    animation: pulse 2s infinite;
+                }
+                
+                @keyframes pulse {
+                    0% {
+                        transform: scale(1);
+                    }
+                    50% {
+                        transform: scale(1.05);
+                    }
+                    100% {
+                        transform: scale(1);
+                    }
+                }
+                `}
+            </style>
+            <img
+                src='./images/cadinov_logo.png'
+                className='pulse-image'
+                alt='Cadinov Logo'
+                data-aos='zoom-in'
+                style={{
+                    width: '20vw',
+                    height: '20vw'
+                }}
+            />
+            <h1
+                data-aos='zoom-out'
+                style={{
+                    color: 'white',
+                    fontSize: '3vw'
+                }}
+            >
+                "Promoting the development of national and international tourism"
+            </h1>
+            <button
+                className='btn btn-primary pulse-button'
+                onClick={this.state.handleClick}
+            >
+                Begin Your Adventure
+            </button>
+        </div>
+    </div>
+);
+
+
+  //   return (
+
+  //     <div className='row landing justify-content-center'>
+  //         {/* prevents exposed whitespaces around webpage*/}
+  //         <style>
+  //         {`
+  //           body {
+  //             overflow: hidden;
+  //           }
+  //         `}
+  //       </style>
+  //             <video
+  //                 src='./videos/cadinov-intro.mp4'
+  //                 autoPlay
+  //                 loop
+  //                 style={{
+  //                 position: 'absolute',
+  //                 top: 0,
+  //                 left: 0,
+  //                 width: '1700px',
+  //                 height: '1260px',
+  //                 zIndex: -1,
+  //                 objectFit:'cover'
+  //                 }}
+  //             />
               
 
-        <div
-          className='col-md-10 my-auto text-center'
-          style={{ borderRight: '8px solid white',  
-          background: 'linear-gradient(to bottom right, rgba(23, 85, 106, 1), rgba(204, 204, 204, 0.3))',
-          height: '420px'
+  //       <div
+  //         className='col-md-10 my-auto text-center'
+  //         style={{ borderRight: '8px solid white',  
+  //         background: 'linear-gradient(to bottom right, rgba(23, 85, 106, 1), rgba(204, 204, 204, 0.3))',
+  //         height: '420px'
     
-      }}
-        >
+  //     }}
+  //       >
 
-  <style>
-          {`
-            .pulse-button {
-              animation: pulse 2s infinite;
-            }
+  // <style>
+  //         {`
+  //           .pulse-button {
+  //             animation: pulse 2s infinite;
+  //           }
 
-            @keyframes pulse {
-              0% {
-                transform: scale(1);
-              }
-              50% {
-                transform: scale(1.05);
-              }
-              100% {
-                transform: scale(1);
-              }
-            }
-          `}
-        </style>
+  //           @keyframes pulse {
+  //             0% {
+  //               transform: scale(1);
+  //             }
+  //             50% {
+  //               transform: scale(1.05);
+  //             }
+  //             100% {
+  //               transform: scale(1);
+  //             }
+  //           }
+  //         `}
+  //       </style>
     
-          <img src='./images/cadinov_logo.png' className='pulse-image'
-          alt='Cadinov Logo' data-aos='zoom-in'
-          style={{width : '300px', height : '300px'}} />
-          <h1 data-aos='zoom-out' style={{ color: 'white' }}>
-            "Promoting the development of national and international tourism"
-          </h1>
-          <button className='btn btn-primary pulse-button' onClick={this.state.handleClick}>
-            Begin Your Adventure
-          </button>
-        </div>
-      </div>
-    );
+  //         <img src='./images/cadinov_logo.png' className='pulse-image'
+  //         alt='Cadinov Logo' data-aos='zoom-in'
+  //         style={{width : '300px', height : '300px'}} />
+  //         <h1 data-aos='zoom-out' style={{ color: 'white' }}>
+  //           "Promoting the development of national and international tourism"
+  //         </h1>
+  //         <button className='btn btn-primary pulse-button' onClick={this.state.handleClick}>
+  //           Begin Your Adventure
+  //         </button>
+  //       </div>
+  //     </div>
+  //   );
   }
 }
 
