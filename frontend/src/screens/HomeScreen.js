@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import axios from 'axios'
+// // import axios from 'axios'
 import Excursion from '../components/Excursion'
 import { DatePicker } from 'antd'
 import moment from 'moment'
 import 'antd/dist/antd.min.css'
 import Loader from '../components/Loader'
 import Error from '../components/Error'
-import axiosInstance from '../components/AxiosInstance'
+import axios from '../components/AxiosInstance'
 
 function HomeScreen () {
   // api setup
@@ -54,9 +54,8 @@ function HomeScreen () {
   function fetchExcursions() {
     // Fetch list of excursions from API
     async function fetchData () {
-      await axios.get('https://cadinov-api.onrender.com/api/excursions/getallexcursions')
+      await axios.get('/api/excursions/getallexcursions')
         .then((response) => {
-          console.log(response.data)
           setexcursions(response.data)
           setavailableexcursions(response.data)
           setoriginalexcursions(response.data)
@@ -64,7 +63,6 @@ function HomeScreen () {
         })
         .catch((error) => {
           seterror(error)
-          console.log(error)
           setloading(false)
         })
     }
@@ -78,15 +76,15 @@ function HomeScreen () {
 
   function filterByDate (date) {
     setdate(moment(date).format('MM-DD-YYYY'))
-    console.log(moment(date).format('MM-DD-YYYY'))
+    // console.log(moment(date).format('MM-DD-YYYY'))
 
     var tempexcursions = []
     // get the excursion day
     const selectedday = moment(date).format('dddd')
-    console.log(selectedday)
+    // console.log(selectedday)
 
     if (selectedday === 'Invalid date') {
-      console.log('date no longer provided')
+      // console.log('date no longer provided')
       setexcursions(excursions)
     } else {
       // loop through list of excursions
@@ -123,7 +121,7 @@ function HomeScreen () {
 
   function filterByType (e) {
     settype(e)
-    console.log(e)
+    // console.log(e)
 
     if (e !== 'all') {
       const update = availableexcursions.filter(excursion =>
@@ -135,7 +133,6 @@ function HomeScreen () {
     }
   }
 
-  console.log(excursions)
   return (
     <div className='background'>
       <div className='mt-5'>

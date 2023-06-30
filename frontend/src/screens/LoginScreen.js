@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import axios from 'axios'
-import axiosInstance from '../components/AxiosInstance'
+// import axios from 'axios'
+import axios from '../components/AxiosInstance'
 import Loader from '../components/Loader'
 import Error from '../components/Error'
 
@@ -31,36 +31,22 @@ function LoginScreen () {
       password
     }
 
-    await axiosInstance.post('api/users/login', user)
+    await axios.post('api/users/login', user)
       .then((response) => {
 
         setloading(true)
         setloading(false)
         localStorage.setItem('currentUser', JSON.stringify(response))
-        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-        console.log(currentUser);
         
         window.location.href='/home'
 
       })
       .catch((error) => {
 
-        console.log(error)
         setloading(false)
         seterror(true)
 
       })
-    // try {
-    //   setloading(true)
-    //   const result = (await axiosInstance.post('/api/users/login', user)).data
-    //   setloading(false)
-    //   localStorage.setItem('currentUser', JSON.stringify(result))
-    //   window.location.href='/home'
-    // } catch (error) {
-    //   console.log(error)
-    //   setloading(false)
-    //   seterror(true)
-    // }
 
   }
 

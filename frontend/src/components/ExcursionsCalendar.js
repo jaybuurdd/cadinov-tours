@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 // import Calendar from 'react-calendar';
 import { Calendar, Badge, List } from 'antd';
-import axios from 'axios';
-import axiosInstance from '../components/AxiosInstance'
+// import axios from 'axios';
+import axios from './AxiosInstance';
 import moment from 'moment'
 
 function ExcursionsCalendar() {
@@ -10,34 +10,10 @@ function ExcursionsCalendar() {
     const [loading, setloading] = useState(true)
     const [error, seterror] = useState()
   
-    // useEffect(
-    //   () =>
-    //     async function fetchData () {
-    //       try {
-    //         setloading(true)
-    //         const data = await (await axios.get('/api/bookings/getallbookings'))
-    //           .data
-    //         setbookings(data)
-    //         setloading(false)
-    //       } catch (error) {
-    //         console.log(error)
-    //         setloading(false)
-    //         seterror(true)
-    //       }
-    //     },
-    //   []
-    // )
-
-    // return (
-
-    //   <Calendar/>
-
-     
-    // )
     useEffect(() => {
       async function fetchData() {
 
-        await axiosInstance.get('/api/bookings/getallbookings')
+        await axios.get('/api/bookings/getallbookings')
           .then((response => {
 
             setbookings(response.data);
@@ -45,19 +21,10 @@ function ExcursionsCalendar() {
           }))
           .catch((error) => {
 
-            console.log(error);
+            // console.log(error);
             
           })
-        // try {
-        //   // const data = await (await axios.get('/api/bookings/getallbookings')).data;
-        //   // setbookings(data);
-        //   const response = await axios.get('/api/bookings/getallbookings');
-        //   console.log('API response:', response);
-        //   const data = response.data;
-        //   setbookings(data);
-        // } catch (error) {
-        //   console.log(error);
-        // }
+
       }
       fetchData();
     }, []);
@@ -80,7 +47,7 @@ function ExcursionsCalendar() {
       }
   
       
-      //console.log('Bookings for date:', bookingsForDate);
+      console.log('Bookings for date:', bookingsForDate);
       
       return (
         <List

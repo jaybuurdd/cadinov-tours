@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Tabs } from 'antd'
-import axios from 'axios'
-import axiosInstance from '../components/AxiosInstance'
+// import axios from 'axios'
+import axios from '../components/AxiosInstance'
 import Loader from '../components/Loader'
 import Error from '../components/Error'
 import AddExcursion from '../components/AddExcursion'
@@ -63,13 +63,13 @@ export function Bookings () {
   useEffect(
     () =>
       async function fetchData () {
-        await axiosInstance.get('/api/bookings/getallbookings')
+        await axios.get('/api/bookings/getallbookings')
           .then((response) => {
             setbookings(response.data)
             setloading(false)
           })
           .catch((error) => {
-            console.log(error)
+            // console.log(error)
             setloading(false)
             seterror(true)
           })
@@ -135,7 +135,7 @@ export function Excursions () {
     () =>
       async function fetchData () {
 
-        await axiosInstance.get('/api/excursions/getallexcursions')
+        await axios.get('/api/excursions/getallexcursions')
           .then((response) => {
 
             setexcursions(response.data)
@@ -144,20 +144,9 @@ export function Excursions () {
           })
           .catch((error) => {
             seterror(error)
-            console.log(error)
+            // console.log(error)
             setloading(false)
           })
-        // try {
-        //   const data = await (
-        //     await axios.get('/api/excursions/getallexcursions')
-        //   ).data
-        //   setexcursions(data)
-        //   setloading(false)
-        // } catch (error) {
-        //   seterror(error)
-        //   console.log(error)
-        //   setloading(false)
-        // }
       },
     []
   )
@@ -206,25 +195,16 @@ export function Users () {
     () =>
       async function fetchData () {
         
-        await axiosInstance.get('/api/users/getallusers')
+        await axios.get('/api/users/getallusers')
           .then((response => {
             setusers(response.data)
             setloading(false)
           }))
           .catch((error) => {
             seterror(error)
-            console.log(error)
             setloading(false)
           })
-        // try {
-        //   const data = await (await axios.get('/api/users/getallusers')).data
-        //   setusers(data)
-        //   setloading(false)
-        // } catch (error) {
-        //   seterror(error)
-        //   console.log(error)
-        //   setloading(false)
-        // }
+
       },
     []
   )

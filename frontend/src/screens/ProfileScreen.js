@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { Tabs, Divider, Tag } from 'antd'
 import styled from '@emotion/styled';
-import axios from 'axios'
+// import axios from 'axios'
+import axios from '../components/AxiosInstance';
 import Loader from '../components/Loader'
 import Error from '../components/Error'
 import AOS from 'aos'
@@ -121,11 +122,9 @@ export function MyBookings () {
       const data = await (
         await axios.post('/api/bookings/getbookingsbyuserid', { userid: user._id })
       ).data
-      console.log(data)
       setbookings(data)
       setloading(false)
     } catch (error) {
-      console.log(error)
       setloading(false)
       seterror(error)
     }
@@ -137,19 +136,15 @@ export function MyBookings () {
     try {
     
       setloading(true)
-      const result = await (await axios.post("/api/bookings/cancelbooking", {bookingid, excursionid})).data
-      console.log(result)
+      await (await axios.post("/api/bookings/cancelbooking", {bookingid, excursionid})).data
+ 
       setloading(false)
 
     } catch (error) {
-      console.log(error)
+
       setloading(false)
     }
 
-  }
-
-  async function checkExpiration() {
-    console.log("Checking for expiration...")
   }
 
   return (

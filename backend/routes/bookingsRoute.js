@@ -7,52 +7,34 @@ const { v4: uuidv4 } = require('uuid')
 
 
 router.post('/bookexcursion', async (req, res) => {
-  const { excursion, userid, thedate, totalamount, token } = req.body
+  const { excursion, thedate, totalamount, token } = req.body
 
   try {
-    const customer = await stripe.customers.create({
-      email: token.email,
-      source: token.id
-    })
+    const transactionId = uuidv4();
+    const date = moment(thedate).format('MM-DD-YYYY')
 
-    const payment = await stripe.charges.create(
-      {
-        amount: totalamount * 100,
-        customer: customer.id,
-        currency: 'usd',
-        receipt_email: token.email
-      },
-      {
-        idempotencyKey: uuidv4()
-      }
-    )
-
-    if (payment) {
-  
         const newbooking = new Booking({
-          excursion: excursion.name,
-          excursionid: excursion._id,
-          userid,
-          thedate: moment(thedate).format('MM-DD-YYYY'),
+          excursion: excursion.data.name,
+          excursionid: excursion.data._id,
+          userid: token.data._id,
+          thedate: date,
           totalamount,
-          transactionId: '1234'
+          transactionId: transactionId
         })
 
+        console.log("new booking: ", newbooking)
         const booking = await newbooking.save()
 
-        const excursiontemp = await Excursion.findOne({ _id: excursion._id })
+        const excursiontemp = await Excursion.findOne({ _id: excursion.data._id })
 
         excursiontemp.currentbookings.push({
           bookingid: booking._id,
-          thedate: moment(thedate).format('MM-DD-YYYY'),
-          userid: userid,
+          thedate: date,
+          userid: token._id,
           status: booking.status
         })
 
         await excursiontemp.save()
-
- 
-    }
 
     res.send('Payment Successful! Your excursion is booked!')
   } catch (error) {

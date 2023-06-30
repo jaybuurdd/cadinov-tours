@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import axios from 'axios'
-import axiosInstance from '../components/AxiosInstance'
+// import axios from 'axios'
+import axios from '../components/AxiosInstance'
 import Loader from '../components/Loader'
 import Error from '../components/Error'
 import Success from '../components/Success'
@@ -41,7 +41,7 @@ function RegisterScreen () {
         return
       }
 
-      await axiosInstance.post('/api/users/register', user)
+      await axios.post('/api/users/register', user)
         .then((response) => {
 
           setloading(true)
@@ -62,35 +62,11 @@ function RegisterScreen () {
         })
         .catch((error) => {
 
-          console.log(error)
           setloading(false)
           seterror(true)
 
         })
-      // try {
-      //   setloading(true)
-      //   const result = await axios.post('/api/users/register', user).data
-        
-        
-      //   setloading(false)
-      //   setsuccess(true)
-
-        
-      //   setname('')
-      //   setemail('')
-      //   setnumber('')
-      //   setpassword('')
-      //   setcpassword('')
-
-      //   window.location.href = '/login'
-
-      // } catch (error) {
-      //   console.log(error)
-      //   setloading(false)
-      //   seterror(true)
-      // }
-
-      
+   
     } else {
       alert("Passwords don't match!")
     }
