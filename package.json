@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/jaybuurdd/cadinov-tours#readme",
   "dependencies": {
+    "@paypal/react-paypal-js": "^8.0.0",
     "bcrypt": "^5.1.0",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",

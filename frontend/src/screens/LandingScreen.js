@@ -33,7 +33,7 @@ class LandingScreen extends React.Component {
             .then(() => {
               // Video was successfully played
 
-              console.log('success!')
+              // console.log('success!')
             })
             .catch(error => {
               // An error occurred, such as the user clicking on the video to pause it

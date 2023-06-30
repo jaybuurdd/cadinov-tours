@@ -13,11 +13,11 @@ const excursionsRoute = require('./routes/excursionsRoute');
 const usersRoute = require('./routes/usersRoute');
 const bookingsRoute = require('./routes/bookingsRoute');
 
-app.use(cors(corsOptions));
+app.use(cors());
 app.use(express.json());
 
 
-
+mongoose.set('strictQuery', false);
 mongoose.connect(process.env.DB_URI, {useUnifiedTopology : true, useNewUrlParser : true });
 
 let connection = mongoose.connection;

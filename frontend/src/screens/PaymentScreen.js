@@ -1,18 +1,18 @@
-import React, { useEffect, useState, useRef} from 'react';
-import axios from 'axios';
+import React, { useEffect, useRef} from 'react';
+import Swal from 'sweetalert2';
+import { useLocation, useHistory } from 'react-router-dom';
+import axios from '../components/AxiosInstance';
 
-function PaymentScreen({ price, totalamount }){
-  
+function PaymentScreen(){
+  const location = useLocation();
+  const history = useHistory();
+  const searchParams = new URLSearchParams(location.search);
+  const bookingDetails = JSON.parse(decodeURIComponent(searchParams.get('details')));
 
   const paypalRan = useRef(false)
-
-  const [excursion, setExcursion] = useState()
-
   const PaypalButtons = () => {
 
     useEffect(() => {
-      console.log('total ' + totalamount
-      )
 
       if(paypalRan.current === false){
           
@@ -33,8 +33,8 @@ function PaymentScreen({ price, totalamount }){
                 
                   purchase_units: [
                       {
-                          amount: {
-                              value: price
+                          'amount': {
+                              'value': bookingDetails.totalamount
                           }
                       }
                   ]
@@ -47,7 +47,14 @@ function PaymentScreen({ price, totalamount }){
           onApprove: (data, actions) => {
               const captureOrderHandler = (details) => {
                   const payerName = details.payer.name.given_name;
-                  console.log('Transaction completed');
+                  Swal.fire(
+                    'Booking Successful!',
+                    `Your adventure awaits ${payerName}!`,
+                    'success'
+                  ).then(result => {
+                    history.push('/profile')
+                  })
+                  axios.post('/api/bookings/bookexcursion', bookingDetails)
               };
 
               return actions.order.capture().then(captureOrderHandler);
@@ -68,12 +75,12 @@ function PaymentScreen({ price, totalamount }){
     paypalRan.current = true
    
   }
-    }, [totalamount]);
+    }, [bookingDetails.totalamount]);
 
     return (
       
       <div id='root'>
-        <div id="smart-button-container" style={{textAlign: 'center', marginTop: '100px'}}>
+        <div id="smart-button-container" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
           <div style={{textAlign: 'center'}}>
             <div id="paypal-button-container"></div>
           </div>
@@ -84,15 +91,13 @@ function PaymentScreen({ price, totalamount }){
 
   useEffect(() => {
     // update the payment amount in the PayPal button
-    document.querySelector("button").dataset.amount = totalamount * 100;
-  }, [totalamount]); // update the payment amount when totalamount changes
+    document.querySelector("button").dataset.amount = bookingDetails.totalamount * 100;
+  }, [bookingDetails.totalamount]); // update the payment amount when totalamount changes
 
   return (
     
     <React.Fragment>
-
       <PaypalButtons />
-      {/* Other components go here */}
     </React.Fragment>
   );
 }
