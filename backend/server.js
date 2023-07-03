@@ -13,7 +13,7 @@ const excursionsRoute = require('./routes/excursionsRoute');
 const usersRoute = require('./routes/usersRoute');
 const bookingsRoute = require('./routes/bookingsRoute');
 
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());
 
 

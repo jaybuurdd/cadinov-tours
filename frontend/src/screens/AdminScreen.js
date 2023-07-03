@@ -60,33 +60,21 @@ export function Bookings () {
   const [loading, setloading] = useState(true)
   const [error, seterror] = useState()
 
-  useEffect(
-    () =>
-      async function fetchData () {
-        await axios.get('/api/bookings/getallbookings')
-          .then((response) => {
-            setbookings(response.data)
-            setloading(false)
-          })
-          .catch((error) => {
-            // console.log(error)
-            setloading(false)
-            seterror(true)
-          })
-        // try {
-        //   setloading(true)
-        //   const data = await (await axios.get('/api/bookings/getallbookings'))
-        //     .data
-        //   setbookings(data)
-        //   setloading(false)
-        // } catch (error) {
-        //   console.log(error)
-        //   setloading(false)
-        //   seterror(true)
-        // }
-      },
-    []
-  )
+  useEffect(() => {
+    async function fetchData () {
+      await axios.get('/api/bookings/getallbookings')
+        .then((response) => {
+          setbookings(response.data)
+          setloading(false)
+        })
+        .catch((error) => {
+          // console.log(error)
+          setloading(false)
+          seterror(true)
+        })
+    }
+    fetchData();
+  }, []);
 
 
   return (
@@ -131,25 +119,21 @@ export function Excursions () {
   const [loading, setloading] = useState(true)
   const [error, seterror] = useState()
 
-  useEffect(
-    () =>
-      async function fetchData () {
-
-        await axios.get('/api/excursions/getallexcursions')
-          .then((response) => {
-
-            setexcursions(response.data)
-            setloading(false)
-
-          })
-          .catch((error) => {
-            seterror(error)
-            // console.log(error)
-            setloading(false)
-          })
-      },
-    []
-  )
+  useEffect(() => {
+    async function fetchData () {
+      await axios.get('/api/excursions/getallexcursions')
+        .then((response) => {
+          setexcursions(response.data)
+          setloading(false)
+        })
+        .catch((error) => {
+          seterror(error)
+          // console.log(error)
+          setloading(false)
+        })
+    }
+    fetchData();
+  }, []);
 
   return (
     <div className='row'>
@@ -191,23 +175,20 @@ export function Users () {
   const [loading, setloading] = useState(true)
   const [error, seterror] = useState()
 
-  useEffect(
-    () =>
-      async function fetchData () {
-        
-        await axios.get('/api/users/getallusers')
-          .then((response => {
-            setusers(response.data)
-            setloading(false)
-          }))
-          .catch((error) => {
-            seterror(error)
-            setloading(false)
-          })
-
-      },
-    []
-  )
+  useEffect(() => {
+    async function fetchData () {
+      await axios.get('/api/users/getallusers')
+        .then((response => {
+          setusers(response.data)
+          setloading(false)
+        }))
+        .catch((error) => {
+          seterror(error)
+          setloading(false)
+        })
+    }
+    fetchData();
+  }, []);
 
   return (
     <div className='row'>

@@ -10,7 +10,7 @@ function ExcursionsCalendar() {
     const [loading, setloading] = useState(true)
     const [error, seterror] = useState()
   
-    useEffect(() => {
+    useEffect(() => { 
       async function fetchData() {
 
         await axios.get('/api/bookings/getallbookings')
@@ -46,8 +46,6 @@ function ExcursionsCalendar() {
         return null;
       }
   
-      
-      console.log('Bookings for date:', bookingsForDate);
       
       return (
         <List
