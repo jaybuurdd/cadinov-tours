@@ -1,7 +1,7 @@
 
 
 const corsOptions = {
-  origin: ['https://cadinov.onrender.com', 'https://www.cadinovtours.com', 'http://localhost:3000'],
+  origin: ['https://cadinov-997l.onrender.com', 'https://www.cadinovtours.com'],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true
