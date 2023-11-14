@@ -22,7 +22,7 @@ router.post('/bookexcursion', async (req, res) => {
           transactionId: transactionId
         })
 
-        console.log("new booking: ", newbooking)
+        // console.log("new booking: ", newbooking)
         const booking = await newbooking.save()
 
         const excursiontemp = await Excursion.findOne({ _id: excursion.data._id })

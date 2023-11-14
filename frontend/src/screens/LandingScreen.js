@@ -19,7 +19,7 @@ const LandingScreen = () => {
         videoElement
           .play()
           .then(() => {
-            console.log('Video was successfully played')
+            // console.log('Video was successfully played')
           })
           .catch(error => {
             console.error(error)

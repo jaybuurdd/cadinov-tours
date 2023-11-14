@@ -14,15 +14,18 @@ AOS.init({
 });
 
 function AdminScreen () {
-  useEffect(
-    () =>
-      async function fetchData () {
-        if (!JSON.parse(localStorage.getItem('currentUser')).data.isAdmin) {
-          window.location.href = '/home'
-        }
-      },
-    []
-  )
+
+  const user = JSON.parse(localStorage.getItem('currentUser'))
+
+  useEffect(() => {
+    if (!user || !user.data.isAdmin) {
+      window.location.href = '/home';
+    }
+  }, [user]);
+
+  if (!user || !user.data.isAdmin) {
+    return <Loader/>;
+  }
 
   return (
     <div className='ml-3 mt-3 mr-3 bs' data-aos='fade-right'>
